@@ -1,15 +1,7 @@
-class Films {
-  List<Film> items = List();
-  Films();
-  Films.fromJsonList(List<dynamic> jsonList){
-      if(jsonList == null) return;
-      for (var item in jsonList) {
-        final film = Film.fromJsonMap(item);
-        items.add(film);
-      }
-  }
-}
+import 'package:json_annotation/json_annotation.dart';
+part 'film_model.g.dart';
 
+@JsonSerializable()
 class Film {
   int id;
   double popularity;
@@ -24,44 +16,17 @@ class Film {
   String backdropPath;
   bool adult;
   String overview;
+
+  @JsonKey(name: 'poster_path')
   String posterPath;
 
-  Film({
-    this.popularity,
-    this.id,
-    this.video,
-    this.voteCount,
-    this.voteAverage,
-    this.title,
-    this.releaseDate,
-    this.originalLanguage,
-    this.originalTitle,
-    this.genreIds,
-    this.backdropPath,
-    this.adult,
-    this.overview,
-    this.posterPath,
-  });
+  Film();
 
-  Film.fromJsonMap(Map<String, dynamic> json) {
-    popularity = json['popularity'] / 1;
-    id = json['id'];
-    video = json['video'];
-    voteCount = json['vote_count'];
-    voteAverage = json['vote_average'] / 1;
-    title = json['title'];
-    releaseDate = json['release_date'];
-    originalLanguage = json['original_laguage'];
-    originalTitle = json['original_title'];
-    genreIds = json['genre_ids'].cast<int>();
-    backdropPath = json['backdrop_path'];
-    adult = json['adult'];
-    overview = json['overview'];
-    posterPath = json['poster_path'];
-  }
+  factory Film.fromJson(Map<String, dynamic> json) => _$FilmFromJson(json);
+  Map<String, dynamic> toJson() => _$FilmToJson(this);
 
-  getPosterImage(){
-    if(posterPath == null){
+  getPosterImage() {
+    if (posterPath == null) {
       return 'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg';
     }
     return 'https://image.tmdb.org/t/p/w500/$posterPath';
