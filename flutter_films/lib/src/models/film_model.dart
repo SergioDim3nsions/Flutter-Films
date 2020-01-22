@@ -7,13 +7,26 @@ class Film {
   double popularity;
   bool video;
   int voteCount;
+
+  @JsonKey(name: 'vote_average')
   double voteAverage;
+  
   String title;
+
+  @JsonKey(name: 'release_date')
   String releaseDate;
+
+  @JsonKey(name: 'original_language')
   String originalLanguage;
+
+  @JsonKey(name: 'original_title')
   String originalTitle;
+  
   List<int> genreIds;
+
+  @JsonKey(name: 'backdrop_path')
   String backdropPath;
+
   bool adult;
   String overview;
 

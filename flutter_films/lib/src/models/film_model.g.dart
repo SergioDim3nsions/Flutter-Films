@@ -12,13 +12,13 @@ Film _$FilmFromJson(Map<String, dynamic> json) {
     ..popularity = (json['popularity'] as num)?.toDouble()
     ..video = json['video'] as bool
     ..voteCount = json['voteCount'] as int
-    ..voteAverage = (json['voteAverage'] as num)?.toDouble()
+    ..voteAverage = (json['vote_average'] as num)?.toDouble()
     ..title = json['title'] as String
-    ..releaseDate = json['releaseDate'] as String
-    ..originalLanguage = json['originalLanguage'] as String
-    ..originalTitle = json['originalTitle'] as String
+    ..releaseDate = json['release_date'] as String
+    ..originalLanguage = json['original_language'] as String
+    ..originalTitle = json['original_title'] as String
     ..genreIds = (json['genreIds'] as List)?.map((e) => e as int)?.toList()
-    ..backdropPath = json['backdropPath'] as String
+    ..backdropPath = json['backdrop_path'] as String
     ..adult = json['adult'] as bool
     ..overview = json['overview'] as String
     ..posterPath = json['poster_path'] as String;
@@ -29,13 +29,13 @@ Map<String, dynamic> _$FilmToJson(Film instance) => <String, dynamic>{
       'popularity': instance.popularity,
       'video': instance.video,
       'voteCount': instance.voteCount,
-      'voteAverage': instance.voteAverage,
+      'vote_average': instance.voteAverage,
       'title': instance.title,
-      'releaseDate': instance.releaseDate,
-      'originalLanguage': instance.originalLanguage,
-      'originalTitle': instance.originalTitle,
+      'release_date': instance.releaseDate,
+      'original_language': instance.originalLanguage,
+      'original_title': instance.originalTitle,
       'genreIds': instance.genreIds,
-      'backdropPath': instance.backdropPath,
+      'backdrop_path': instance.backdropPath,
       'adult': instance.adult,
       'overview': instance.overview,
       'poster_path': instance.posterPath,
