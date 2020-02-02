@@ -4,6 +4,7 @@ import 'package:flutter_films/src/network/request/get_now_playing_films_request.
 import 'package:flutter_films/src/network/request/get_popular_films_request.dart';
 import 'package:flutter_films/src/pages/widget/card_swiper_widget.dart';
 import 'package:flutter_films/src/pages/widget/movie_horizontal.dart';
+import 'package:flutter_films/src/search/search_delegate.dart';
 
 class HomePage extends StatelessWidget {
   final GetNowPlayingFilmsRequest _getNowPlayingFilmsRequest =
@@ -13,6 +14,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    _getPopularFilmsRequest.getPopularFilms();
+    
     return Scaffold(
         appBar: AppBar(
           title: Text('Films'),
@@ -20,13 +24,15 @@ class HomePage extends StatelessWidget {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.search),
-              onPressed: () {},
+              onPressed: () {
+                showSearch(context: context, delegate: DataSearch());
+              },
             )
           ],
         ),
         body: Container(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[_swipeCards(), _footer(context)],
           ),
         ));
@@ -62,13 +68,14 @@ class HomePage extends StatelessWidget {
             SizedBox(
               height: 5.0,
             ),
-            FutureBuilder(
-              future: _getPopularFilmsRequest.getPopularFilms(),
+            StreamBuilder(
+              stream: _getPopularFilmsRequest.popularStream,
               builder:
                   (BuildContext context, AsyncSnapshot<List<Film>> snapshot) {
                 if (snapshot.hasData) {
                   return MovieHorizontal(
                     films: snapshot.data,
+                    nextPage: _getPopularFilmsRequest.getPopularFilms,
                   );
                 } else {
                   return Center(child: CircularProgressIndicator());

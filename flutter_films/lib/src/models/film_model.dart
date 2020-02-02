@@ -3,6 +3,7 @@ part 'film_model.g.dart';
 
 @JsonSerializable()
 class Film {
+  String uniqueId;
   int id;
   double popularity;
   bool video;
@@ -10,7 +11,7 @@ class Film {
 
   @JsonKey(name: 'vote_average')
   double voteAverage;
-  
+
   String title;
 
   @JsonKey(name: 'release_date')
@@ -21,7 +22,7 @@ class Film {
 
   @JsonKey(name: 'original_title')
   String originalTitle;
-  
+
   List<int> genreIds;
 
   @JsonKey(name: 'backdrop_path')
@@ -43,5 +44,12 @@ class Film {
       return 'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg';
     }
     return 'https://image.tmdb.org/t/p/w500/$posterPath';
+  }
+
+  getBackdropPath() {
+    if (backdropPath == null) {
+      return 'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg';
+    }
+    return 'https://image.tmdb.org/t/p/w500/$backdropPath';
   }
 }

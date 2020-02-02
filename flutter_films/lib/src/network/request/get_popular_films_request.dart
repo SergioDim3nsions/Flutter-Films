@@ -7,12 +7,13 @@ import 'package:flutter_films/src/network/response/get_films_response.dart';
 import '../endpoints.dart';
 
 class GetPopularFilmsRequest {
-   int _popularPage = 1;
+  int _popularPage = 0;
+  bool _isLoading = false;
   List<Film> _popularFilm = new List();
-  
+
   final _popularStreamController = StreamController<List<Film>>.broadcast();
   Function(List<Film>) get popularSink => _popularStreamController.sink.add;
-  Stream<List<Film>> get popularSream => _popularStreamController.stream;
+  Stream<List<Film>> get popularStream => _popularStreamController.stream;
 
   void disposeStreams() {
     _popularStreamController?.close();
@@ -20,18 +21,24 @@ class GetPopularFilmsRequest {
 
   Map<String, String> queryParams = {
     'api_key': Constants.API_KEY,
-    'language': 'es'
+    'language': 'es',
   };
 
   Future<List<Film>> getPopularFilms() async {
+    if (_isLoading) return [];
+    _isLoading = true;
+
+    _popularPage++;
     queryParams['page'] = _popularPage.toString();
     final url =
         Uri.https(Constants.BASE_URL, Endpoints.GET_POPULAR_FILMS, queryParams);
 
     final response = await _getResponse(url);
-    _popularFilm.addAll(response);
-    _popularStreamController.sink.add(_popularFilm);
 
+    _popularFilm.addAll(response);
+    popularSink(_popularFilm);
+
+    _isLoading = false;
     return response;
   }
 
